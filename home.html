@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM Citizen Homepage</title>
+  <style>
+    :root { --navy:#201f73; --blue:#2f89ff; --ink:#111735; --sky:#23a8f2; --line:#cfcfcf; --field:#f7f7f7; --text:#101010; --shadow:0 2px 5px rgba(0,0,0,.22); }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; color:var(--text); font-family:Arial, Helvetica, sans-serif; background:#fff; }
+    .shell { min-height:100vh; display:grid; grid-template-columns:240px minmax(0,1fr); }
+    .sidebar { background:var(--navy); color:#fff; padding:32px 18px; display:flex; flex-direction:column; align-items:center; }
+    .brand { margin-bottom:44px; font-size:34px; font-weight:800; letter-spacing:.4px; }
+    .side-nav { width:100%; display:grid; gap:10px; }
+    .nav-link { display:flex; align-items:center; gap:10px; width:100%; min-height:40px; padding:0 12px; border-radius:6px; background:var(--blue); color:#fff; text-decoration:none; font-size:14px; transition:transform .16s ease, filter .16s ease, box-shadow .16s ease; }
+    .nav-link:hover, .nav-link:focus-visible { transform:translateY(-2px); filter:brightness(1.07); box-shadow:0 5px 9px rgba(0,0,0,.25); outline:1px solid rgba(255,255,255,.85); outline-offset:2px; }
+    .nav-link:active { transform:scale(.98); }
+    .nav-icon { width:20px; height:20px; display:grid; grid-template-columns:repeat(2,1fr); gap:3px; flex:0 0 auto; }
+    .nav-icon span { border:1px solid rgba(255,255,255,.8); border-radius:3px; }
+    .report-icon { width:20px; height:20px; border:1px solid rgba(255,255,255,.8); border-radius:4px; display:grid; place-items:center; font-size:13px; }
+    .logout { margin-top:auto; align-self:flex-start; display:flex; align-items:center; gap:8px; color:#fff; text-decoration:none; font-size:13px; opacity:.95; transition:opacity .15s ease, transform .15s ease; }
+    .logout:hover, .logout:focus-visible { opacity:1; transform:translateX(3px); outline:none; }
+    .content { min-width:0; padding:32px clamp(24px,4vw,54px); overflow:auto; }
+    .topbar { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; margin-bottom:22px; }
+    h1 { margin:0 0 7px; font-size:clamp(30px,4vw,46px); line-height:1; }
+    .status { font-size:15px; }
+    .profile { width:38px; height:38px; border:1.5px solid #111; border-radius:50%; position:relative; flex:0 0 auto; }
+    .profile:before, .profile:after { content:""; position:absolute; left:50%; transform:translateX(-50%); border:1px solid #111; }
+    .profile:before { top:7px; width:12px; height:12px; border-radius:50%; background:#fff; }
+    .profile:after { bottom:6px; width:23px; height:13px; border-radius:15px 15px 0 0; border-bottom:0; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:24px; margin-bottom:20px; }
+    .stat-card { min-height:108px; border:1px solid #d2d2d2; border-radius:7px; background:#fafafa; padding:18px 20px; box-shadow:var(--shadow); }
+    .stat-card p { margin:0 0 14px; font-size:16px; }
+    .stat-card strong { font-size:31px; line-height:1; }
+    .middle { display:grid; grid-template-columns:minmax(360px,1.45fr) minmax(230px,.9fr); gap:28px; margin-bottom:18px; }
+    .map { min-height:255px; border:3px solid var(--sky); background:#e3e3e3; position:relative; }
+    .pin { width:13px; height:13px; background:red; border-radius:50%; position:absolute; }
+    .pin:nth-child(1){left:26%;top:37%;}.pin:nth-child(2){left:45%;top:21%;}.pin:nth-child(3){left:75%;top:14%;}.pin:nth-child(4){left:47%;top:50%;}.pin:nth-child(5){left:72%;top:46%;}.pin:nth-child(6){left:17%;top:70%;}.pin:nth-child(7){left:41%;top:84%;}.pin:nth-child(8){left:65%;top:76%;}
+    .notices { padding-top:34px; font-size:14px; }
+    .notices h2 { margin:0 0 26px; font-size:20px; }
+    .notice { display:grid; grid-template-columns:16px 1fr; gap:7px; margin-bottom:18px; line-height:1.35; }
+    .notice-icon { color:#f7b500; font-weight:800; }.notice.water .notice-icon{color:#1fa7ff;}
+    .table-card { border:1px solid #bfbfbf; border-radius:5px; box-shadow:var(--shadow); overflow:hidden; background:#fff; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { border-bottom:1px solid #d4d4d4; padding:11px 12px; text-align:left; white-space:nowrap; }
+    th { font-weight:800; background:#fafafa; } tr:last-child td{border-bottom:0;}
+    th:nth-child(3),td:nth-child(3),th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){text-align:center;}
+    .badge { display:inline-block; min-width:84px; padding:4px 7px; border-radius:8px; font-size:12px; line-height:1; text-align:center; }
+    .progress{background:#ffd58b;color:#6b3f00}.planning{background:#cfc8ff;color:#2d246d}.delayed{background:#ff8a8a;color:#7d0000}.completed{background:#73e5a9;color:#00582b}
+    @media (max-width:850px){.shell{grid-template-columns:150px minmax(0,1fr)}.sidebar{padding:22px 10px}.brand{font-size:24px}.content{padding:18px 14px}.stats,.middle{grid-template-columns:1fr}.table-card{overflow-x:auto}}
+    @media (max-width:560px){.shell{grid-template-columns:1fr}.sidebar{min-height:auto}.brand{text-align:center;margin-bottom:18px}.logout{margin-top:24px}.content{padding:18px 12px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <aside class="sidebar">
+      <div class="brand">PRISM</div>
+      <nav class="side-nav" aria-label="Citizen navigation">
+        <a class="nav-link" href="home.html" aria-current="page"><span class="nav-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></span>Dashboard</a>
+        <a class="nav-link" href="report-issue.html"><span class="report-icon" aria-hidden="true">!</span>Report an Issue</a>
+      </nav>
+      <a class="logout" href="login.html"><span aria-hidden="true">↩</span> Log Out</a>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div><h1>Welcome, User</h1><div class="status">System Status: Operational | 06/12/2026</div></div>
+        <div class="profile" aria-label="User profile"></div>
+      </header>
+
+      <section class="stats" aria-label="Project statistics">
+        <article class="stat-card"><p>Total Budget</p><strong>₱ 12.4M</strong></article>
+        <article class="stat-card"><p>Active Projects</p><strong>18</strong></article>
+        <article class="stat-card"><p>Pending Reports</p><strong>31</strong></article>
+      </section>
+
+      <section class="middle">
+        <div class="map" aria-label="Project map markers"><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span></div>
+        <aside class="notices"><h2>Active Public Notices</h2><div class="notice"><span class="notice-icon">!</span><span>Main Street Resurfacing -<br>Expect delays until Friday.</span></div><div class="notice water"><span class="notice-icon">~</span><span>Water Pipe Repair on 5th Ave<br>- Road closed.</span></div></aside>
+      </section>
+
+      <section class="table-card" aria-label="Project details">
+        <table><thead><tr><th>Project Name</th><th>Assigned Contractor</th><th>Status</th><th>Budget</th><th>Completion %</th></tr></thead><tbody>
+          <tr><td>Main St. Resurfacing</td><td>BuildCorp Inc.</td><td><span class="badge progress">In Progress</span></td><td>₱ 1.2M</td><td>65%</td></tr>
+          <tr><td>Bridge Replacement</td><td>BuildCorp Inc.</td><td><span class="badge planning">Planning</span></td><td>₱ 8.5M</td><td>15%</td></tr>
+          <tr><td>Road Widening</td><td>Metro Construct</td><td><span class="badge delayed">Delayed</span></td><td>₱ 2.0M</td><td>40%</td></tr>
+          <tr><td>Smart Light Install</td><td>City Services</td><td><span class="badge completed">Completed</span></td><td>₱ 1.1M</td><td>100%</td></tr>
+        </tbody></table>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
