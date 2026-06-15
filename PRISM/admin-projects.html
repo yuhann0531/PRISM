@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM Manage Projects</title>
+  <style>
+    :root { --navy:#211f78; --blue:#2f89ff; --ink:#111735; --line:#d4d4d4; --shadow:0 2px 5px rgba(0,0,0,.24); }
+    * { box-sizing:border-box; } body { margin:0; min-height:100vh; background:#1f1f1f; color:#101010; font-family:Arial, Helvetica, sans-serif; display:grid; place-items:center; padding:40px; }
+    .frame { width:min(1040px,100%); min-height:680px; background:#fff; display:grid; grid-template-columns:250px 1fr; }
+    .sidebar { background:var(--navy); color:#fff; padding:36px 18px; display:flex; flex-direction:column; align-items:center; }
+    .brand { font-size:34px; font-weight:800; margin-bottom:46px; }.nav{width:100%;display:grid;gap:10px}
+    .nav a { min-height:40px; border-radius:6px; background:var(--blue); color:#fff; display:flex; align-items:center; gap:9px; padding:0 12px; text-decoration:none; font-size:14px; transition:transform .15s ease,filter .15s ease,box-shadow .15s ease; }
+    .nav a:hover,.nav a:focus-visible,.logout:hover,.logout:focus-visible,.create:hover,.create:focus-visible{transform:translateY(-2px);filter:brightness(1.08);outline:1px solid rgba(255,255,255,.9);outline-offset:2px}
+    .icon{width:18px;height:18px;border:1px solid rgba(255,255,255,.8);border-radius:3px;display:grid;place-items:center;font-size:11px;flex:0 0 auto}.logout{margin-top:auto;align-self:flex-start;color:#fff;text-decoration:none;font-size:13px;transition:transform .15s ease,filter .15s ease}
+    .content{padding:48px 24px;overflow:auto}.topbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:28px}h1{margin:0 0 8px;font-size:34px}.status{font-size:14px}
+    .profile{width:40px;height:40px;border:1.5px solid #111;border-radius:50%;position:relative;flex:0 0 auto}.profile:before,.profile:after{content:"";position:absolute;left:50%;transform:translateX(-50%);border:1px solid #111}.profile:before{top:8px;width:12px;height:12px;border-radius:50%;background:#fff}.profile:after{bottom:7px;width:24px;height:13px;border-radius:15px 15px 0 0;border-bottom:0}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:30px}.card{min-height:110px;background:#f8f8f8;border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);padding:20px}.card p{margin:0 0 15px;font-size:15px}.card strong{font-size:30px}
+    .actions{display:flex;justify-content:flex-end;margin-bottom:28px}.create{border:0;border-radius:5px;background:var(--ink);color:#fff;padding:12px 18px;font-weight:800;cursor:pointer;transition:transform .15s ease,filter .15s ease}
+    .table-card{border:1px solid #bfbfbf;border-radius:6px;box-shadow:var(--shadow);overflow:hidden;background:#fff}table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px solid #d4d4d4;padding:13px 14px;text-align:left;white-space:nowrap}th{font-weight:800;background:#fafafa}tr:last-child td{border-bottom:0}th:nth-child(n+3),td:nth-child(n+3){text-align:center}.badge{display:inline-block;min-width:84px;padding:4px 7px;border-radius:8px;font-size:12px;line-height:1}.progress{background:#ffd58b;color:#6b3f00}.planning{background:#cfc8ff;color:#2d246d}.delayed{background:#ff8a8a;color:#7d0000}.completed{background:#73e5a9;color:#00582b}
+    @media(max-width:850px){body{padding:0;place-items:stretch}.frame{min-height:100vh;grid-template-columns:150px 1fr}.sidebar{padding:24px 10px}.brand{font-size:24px}.content{padding:28px 16px}.stats{grid-template-columns:1fr}.table-card{overflow-x:auto}}
+      .page-menu { width:100%; display:grid; gap:7px; }
+    .page-menu label { color:#fff; font-size:12px; font-weight:800; }
+    .page-menu select { width:100%; min-height:40px; border:0; border-radius:6px; background:var(--blue); color:#fff; padding:0 12px; font-size:14px; cursor:pointer; box-shadow:inset 0 0 0 1px rgba(255,255,255,.18); transition:transform .15s ease, filter .15s ease, box-shadow .15s ease; }
+    .page-menu select:hover, .page-menu select:focus-visible { transform:translateY(-2px); filter:brightness(1.08); outline:1px solid rgba(255,255,255,.9); outline-offset:2px; box-shadow:0 5px 9px rgba(0,0,0,.25); }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <aside class="sidebar"><div class="brand">PRISM</div>      <div class="page-menu">
+        <label for="adminPageSelect-admin-projects">Admin Pages</label>
+        <select id="adminPageSelect-admin-projects" onchange="if (this.value) window.location.href = this.value;">
+          <option value="admin-dashboard.html">Dashboard</option>
+          <option value="admin-projects.html" selected>Projects</option>
+          <option value="admin-citizen-reports.html">Citizen Reports</option>
+          <option value="admin-users-contractors.html">Users & Contractors</option>
+        </select>
+      </div><a class="logout" href="login.html">â†© Log Out</a></aside>
+    <section class="content">
+      <header class="topbar"><div><h1>Projects</h1><div class="status">System Status: Operational | 06/12/2026</div></div><div class="profile"></div></header>
+      <section class="stats"><article class="card"><p>Total Contractors</p><strong>3</strong></article><article class="card"><p>Active Projects</p><strong>3</strong></article><article class="card"><p>Project Reports</p><strong>12</strong></article></section>
+      <div class="actions"><button class="create">Create New Project</button></div>
+      <section class="table-card"><table><thead><tr><th>Project Name</th><th>Assigned Contractor</th><th>Status</th><th>Budget</th><th>Completion %</th></tr></thead><tbody><tr><td>Main St. Resurfacing</td><td>BuildCorp Inc.</td><td><span class="badge progress">In Progress</span></td><td>â‚± 1.2M</td><td>65%</td></tr><tr><td>Bridge Replacement</td><td>BuildCorp Inc.</td><td><span class="badge planning">Planning</span></td><td>â‚± 8.5M</td><td>15%</td></tr><tr><td>Road Widening</td><td>Metro Construct</td><td><span class="badge delayed">Delayed</span></td><td>â‚± 2.0M</td><td>40%</td></tr><tr><td>Smart Light Install</td><td>City Services</td><td><span class="badge completed">Completed</span></td><td>â‚± 1.1M</td><td>100%</td></tr></tbody></table></section>
+    </section>
+  </main>
+</body>
+</html>
+
