@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM Admin | Citizen Reports</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5; --panel: #ffffff; --line: #cfcfcf; --text: #101010; --grey-label: #666; --shadow: 0 2px 8px rgba(0,0,0,.08); }
+    * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); }
+    .dashboard-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar { background: var(--navy); color: white; padding: 34px 20px; display: flex; flex-direction: column; align-items: center; }
+    .brand { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 40px; font-size: 24px; font-weight: 800; text-align: center; } .sj-logo { width: 70px; }
+    .side-nav { width: 100%; display: grid; gap: 10px; } .nav-item { min-height: 44px; border-radius: 8px; display: flex; align-items: center; padding: 0 14px; font-size: 14px; font-weight: 500; text-decoration: none; color: rgba(255,255,255,0.7); } .nav-item.active { background: var(--blue); color: #fff; }
+    .dashboard-content { padding: 32px clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 24px; }
+    .topbar { display: flex; justify-content: space-between; gap: 24px; } h1 { margin: 0 0 8px; font-size: 28px; }
+    
+    .profile-wrapper { position: relative; } .profile { width: 42px; height: 42px; border: 1.5px solid #111; border-radius: 50%; display: grid; place-items: center; font-size: 22px; background: #fff; cursor: pointer; } .profile::before { content: '\1F464'; position: absolute; }
+    .profile-dropdown { position: absolute; top: calc(100% + 12px); right: 0; background: var(--panel); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); width: 200px; padding: 16px; display: flex; flex-direction: column; gap: 12px; opacity: 0; visibility: hidden; z-index: 2000; }
+    .profile-dropdown.active { opacity: 1; visibility: visible; } .profile-dropdown a { display: flex; justify-content: center; align-items: center; height: 40px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; } .btn-logout { background: #ef4444; color: white; }
+    
+    .table-container { background: var(--panel); border-radius: 12px; box-shadow: var(--shadow); overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; min-width: 900px; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #f0f0f0; } th { font-weight: 600; color: var(--grey-label); text-transform: uppercase; font-size: 12px; } td:nth-child(1) { font-weight: 600; color: var(--ink); } th:nth-child(6), td:nth-child(6) { text-align: center; }
+    
+    .photo-link { color: var(--blue); text-decoration: none; font-weight: 500; } .photo-link:hover { text-decoration: underline; }
+    .status-select { appearance: none; -webkit-appearance: none; border: none; padding: 6px 30px 6px 12px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; outline: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 12px; }
+    .status-select.pending { background-color: #fef08a; color: #92400e; } .status-select.solved { background-color: #c3fce0; color: #0d5e3c; } .status-select.dismissed { background-color: #fecaca; color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <main class="dashboard-shell">
+    <aside class="sidebar">
+      <div class="brand"><img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" class="sj-logo"> PRISM Admin</div>
+      <nav class="side-nav">
+        <a class="nav-item" href="admin-dashboard.html">Dashboard Overview</a>
+        <a class="nav-item" href="admin-projects.html">Manage Projects</a>
+        <a class="nav-item active" href="admin-citizen-reports.html">Citizen Reports</a>
+        <a class="nav-item" href="admin-users-contractors.html">Users & Contractors</a>
+      </nav>
+    </aside>
+    <section class="dashboard-content">
+      <header class="topbar">
+        <div><h1>Citizen Incident Reports</h1></div>
+        <div class="profile-wrapper">
+          <div class="profile" id="profileBtn"></div>
+          <div class="profile-dropdown" id="profileDropdown"><a href="homepage for user without acc.html" class="btn-logout">Log Out</a></div>
+        </div>
+      </header>
+      <section class="table-container">
+        <table>
+          <thead><tr><th>Citizen Name</th><th>Issue Type</th><th>Description</th><th>Location</th><th>Attached Photo</th><th>Review Status</th></tr></thead>
+          <tbody id="reportTableBody">
+            </tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+  <script>
+    // Load Reports from LocalStorage
+    function loadReportsTable() {
+      const reports = JSON.parse(localStorage.getItem('prism_reports') || '[]');
+      const tbody = document.getElementById('reportTableBody');
+      tbody.innerHTML = '';
+      reports.forEach((r, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${r.citizen}</td><td>${r.type}</td><td>${r.desc.substring(0,35)}...</td><td>${r.loc}</td>
+            <td><a href="#" class="photo-link">📎 View</a></td>
+            <td>
+              <select class="status-select ${r.status}" onchange="updateReportStatus(${index}, this)">
+                <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Needs Review</option>
+                <option value="solved" ${r.status === 'solved' ? 'selected' : ''}>Resolved</option>
+                <option value="dismissed" ${r.status === 'dismissed' ? 'selected' : ''}>Dismissed</option>
+              </select>
+            </td>
+          </tr>`;
+      });
+    }
+
+    // Save Admin's changes to the database
+    window.updateReportStatus = function(index, selectElement) {
+      const newStatus = selectElement.value;
+      selectElement.classList.remove('pending', 'solved', 'dismissed');
+      selectElement.classList.add(newStatus);
+      
+      const reports = JSON.parse(localStorage.getItem('prism_reports'));
+      reports[index].status = newStatus;
+      localStorage.setItem('prism_reports', JSON.stringify(reports));
+    };
+
+    loadReportsTable();
+
+    // Profile Dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    profileBtn.onclick = (e) => { e.stopPropagation(); profileDropdown.classList.toggle('active'); };
+    window.onclick = (e) => { if(!profileDropdown.contains(e.target) && e.target !== profileBtn) profileDropdown.classList.remove('active'); };
+  </script>
+</body>
+</html>

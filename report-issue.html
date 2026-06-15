@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM | Report an Issue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5;
+      --panel: #ffffff; --line: #e5e7eb; --field: #f9fafb; --text: #1f2937;
+      --grey-label: #4b5563; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); display: flex; flex-direction: column; }
+    
+    .auth-header { height: 70px; background: var(--navy); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 10; }
+    .brand { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; text-decoration: none;}
+    .sj-logo { width: 40px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .home-link { padding: 8px 16px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .home-link:hover { background: rgba(255,255,255,0.2); }
+
+    .auth-main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
+    .auth-card { width: 100%; max-width: 500px; background: var(--panel); border-radius: 12px; padding: 40px 30px; box-shadow: var(--shadow); }
+    .auth-card h1 { margin: 0 0 8px; font-size: 24px; font-weight: 700; color: var(--ink); text-align: center; }
+    .auth-card p { margin: 0 0 24px; font-size: 14px; color: var(--grey-label); text-align: center; }
+    
+    .form-field { display: block; margin-bottom: 18px; }
+    .form-field span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--grey-label); }
+    
+    /* Inputs, Selects, and Textareas */
+    .form-input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--field); padding: 0 14px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--text); transition: all 0.2s ease; }
+    .form-input, select { height: 44px; }
+    textarea { height: 100px; padding: 14px; resize: vertical; }
+    .form-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
+    
+    /* Restored Modern Upload Box */
+    .upload-box { position: relative; min-height: 120px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: all 0.2s ease; }
+    .upload-box:hover, .upload-box:focus-within { border-color: var(--blue); background: #eff6ff; }
+    .upload-box svg { width: 32px; height: 32px; fill: var(--blue); margin-bottom: 8px; }
+    .upload-box input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+    .upload-note { color: var(--grey-label); font-size: 12px; font-weight: 500; }
+    .upload-sub { color: #94a3b8; font-size: 11px; margin-top: 4px; }
+
+    .submit-btn { width: 100%; height: 48px; margin-top: 10px; border: none; border-radius: 8px; background: var(--navy); color: #fff; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .submit-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+    /* Success Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s; }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content { background: #fff; width: 100%; max-width: 400px; border-radius: 12px; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s; text-align: center; }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    .modal-body { padding: 40px 24px; } 
+    .success-icon { font-size: 48px; display: block; margin-bottom: 10px; }
+    .modal-footer { padding: 16px 24px; background: #f9fafb; border-radius: 0 0 12px 12px; }
+    .accept-btn { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; }
+    .accept-btn:hover { background: #2563eb; }
+  </style>
+</head>
+<body>
+  <header class="auth-header">
+    <a href="homepage for logged-in user.html" class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" alt="San Juan City Logo" class="sj-logo">
+      PRISM
+    </a>
+    <a class="home-link" href="homepage for logged-in user.html">Back to Dashboard</a>
+  </header>
+  
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1>Report an Issue</h1>
+      <p>Help us improve San Juan City infrastructure.</p>
+      
+      <form id="reportForm">
+        <label class="form-field">
+          <span>Issue Type / Uri ng Isyu:</span>
+          <select id="issueType" required>
+            <option value="" disabled selected>Select an issue category...</option>
+            <option>Pothole / Lubak</option>
+            <option>Broken Streetlight / Sirang Ilaw sa Kalye</option>
+            <option>Road Damage / Sirang Kalsada</option>
+            <option>Flooding / Baha</option>
+            <option>Water Pipe Leak / Tagas sa Tubo</option>
+            <option>Road Closure / Saradong Kalsada</option>
+            <option>Open Manhole / Bukas na Manhole</option>
+            <option>Fallen Tree or Debris / Natumbang Puno</option>
+            <option>Sidewalk Damage / Sirang Bangketa</option>
+            <option>Traffic Light Malfunction / Sirang Traffic Light</option>
+            <option>Others / Iba pa</option>
+          </select>
+        </label>
+        
+        <label class="form-field">
+          <span>Exact Location / Pangalan ng Lugar:</span>
+          <select id="issueLoc" required>
+            <option value="" disabled selected>Select the specific street...</option>
+            <option>Pinaglabanan Street</option>
+            <option>Dr. P.A. Narciso Street</option>
+            <option>N. Domingo Street</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span>Description / Detalye:</span>
+          <textarea id="issueDesc" placeholder="Please describe the issue in detail (e.g., Deep pothole near the intersection, needs urgent attention)..." required></textarea>
+        </label>
+        
+        <label class="form-field">
+          <span>Upload Photo / I-upload ang Larawan:</span>
+          <div class="upload-box" id="uploadBox">
+            <svg id="uploadIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+            </svg>
+            <span class="upload-note" id="uploadText">Click or drag photo here</span>
+            <span class="upload-sub" id="uploadSubText">Supports JPG, PNG (Max 5MB)</span>
+            <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg" required />
+          </div>
+        </label>
+        
+        <button class="submit-btn" type="submit">Submit Report / Magsumite ng Ulat</button>
+      </form>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <div class="modal-body">
+        <span class="success-icon">🤝</span>
+        <h2 style="margin:0 0 10px; color: var(--navy); font-size: 22px;">Thank You!</h2>
+        <p style="font-size: 14px; margin: 0; color: var(--grey-label);">Your report has been successfully submitted to the City Engineering Office for review.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="accept-btn" id="returnBtn">Return to Dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // UX Enhancement: File Upload Visual Feedback
+    document.getElementById('fileInput').addEventListener('change', function() {
+      if (this.files && this.files.length > 0) {
+        const fileName = this.files[0].name;
+        document.getElementById('uploadText').textContent = '✅ Selected: ' + fileName;
+        document.getElementById('uploadSubText').style.display = 'none';
+        document.getElementById('uploadIcon').style.display = 'none';
+        document.getElementById('uploadBox').style.background = '#f0fdf4'; // Light green
+        document.getElementById('uploadBox').style.borderColor = '#10b981'; // Green border
+        document.getElementById('uploadText').style.color = '#10b981';
+      }
+    });
+
+    // Handle Form Submission and Save to Database
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Retrieve existing reports from DB
+      const reports = JSON.parse(localStorage.getItem('prism_reports') || '[]');
+      
+      // Determine the user's name based on session (default to 'Citizen' if unknown)
+      const currentUserEmail = localStorage.getItem('prism_current_user');
+      let citizenName = "Anonymous Citizen";
+      
+      if(currentUserEmail) {
+        // Look up the user's real name from the database based on their email
+        const users = JSON.parse(localStorage.getItem('prism_users') || '[]');
+        const userObj = users.find(u => u.email === currentUserEmail);
+        if(userObj) {
+          citizenName = userObj.name;
+        } else {
+           citizenName = currentUserEmail.split('@')[0]; // fallback to email prefix
+        }
+      }
+
+      // Save new report to simulated DB (unshift adds to the TOP of the list)
+      reports.unshift({
+        citizen: citizenName,
+        type: document.getElementById('issueType').value,
+        desc: document.getElementById('issueDesc').value,
+        loc: document.getElementById('issueLoc').value,
+        status: "pending"
+      });
+      localStorage.setItem('prism_reports', JSON.stringify(reports));
+
+      // Show the Success Modal
+      document.getElementById('successModal').classList.add('active');
+    });
+
+    // Return Button Logic
+    document.getElementById('returnBtn').addEventListener('click', function() {
+      window.location.href = 'homepage for logged-in user.html';
+    });
+  </script>
+</body>
+</html>

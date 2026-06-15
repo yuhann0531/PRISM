@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM | Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5; --panel: #ffffff; --line: #e5e7eb; --field: #f9fafb; --text: #1f2937; --grey-label: #4b5563; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); display: flex; flex-direction: column; }
+    .auth-header { height: 70px; background: var(--navy); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .brand { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; text-decoration: none;}
+    .sj-logo { width: 40px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .home-link { padding: 8px 16px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .home-link:hover { background: rgba(255,255,255,0.2); }
+    .auth-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+    .auth-card { width: 100%; max-width: 400px; background: var(--panel); border-radius: 12px; padding: 40px 30px; box-shadow: var(--shadow); }
+    .auth-card h1 { margin: 0 0 8px; font-size: 24px; font-weight: 700; color: var(--ink); text-align: center; }
+    .auth-card p { margin: 0 0 24px; font-size: 14px; color: var(--grey-label); text-align: center; }
+    .form-field { display: block; margin-bottom: 16px; }
+    .form-field span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--grey-label); }
+    .form-input { width: 100%; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); padding: 0 14px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--text); transition: all 0.2s ease; }
+    .form-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
+    .submit-btn { width: 100%; height: 44px; margin-top: 8px; border: none; border-radius: 8px; background: var(--navy); color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .submit-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+    .small-link { margin: 20px 0 0; font-size: 13px; text-align: center; color: var(--grey-label); }
+    .small-link a { color: var(--blue); text-decoration: none; font-weight: 600; } .small-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="auth-header">
+    <a href="homepage for user without acc.html" class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" alt="San Juan City Logo" class="sj-logo">
+      PRISM
+    </a>
+    <a class="home-link" href="homepage for user without acc.html">Back to Home</a>
+  </header>
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1>Welcome Back</h1>
+      <p>Log in to access your dashboard and Report an Issue</p>
+      <form id="loginForm">
+        <label class="form-field">
+          <span>Email Address</span>
+          <input type="email" id="emailInput" class="form-input" placeholder="example@email.com" required />
+        </label>
+        <label class="form-field">
+          <span>Password</span>
+          <input type="password" class="form-input" placeholder="••••••••" required />
+        </label>
+        <button class="submit-btn" type="submit">Log In</button>
+      </form>
+      <p class="small-link">New User? <a href="signup.html">Register Here</a></p>
+    </div>
+  </main>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.toLowerCase();
+      
+      // Save current user to simulate session
+      localStorage.setItem('prism_current_user', email);
+
+      // Smart routing based on email role
+      if(email.includes('admin')) {
+        window.location.href = 'admin-dashboard.html';
+      } else if (email.includes('contractor') || email.includes('devex')) {
+        window.location.href = 'contractor-dashboard.html';
+      } else {
+        window.location.href = 'homepage for logged-in user.html';
+      }
+    });
+  </script>
+</body>
+</html>

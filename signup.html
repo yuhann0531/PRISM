@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM | Registration</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5;
+      --panel: #ffffff; --line: #e5e7eb; --field: #f9fafb; --text: #1f2937;
+      --grey-label: #4b5563; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); display: flex; flex-direction: column; }
+    
+    .auth-header { height: 70px; background: var(--navy); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .brand { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; text-decoration: none;}
+    .sj-logo { width: 40px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .home-link { padding: 8px 16px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .home-link:hover { background: rgba(255,255,255,0.2); }
+
+    .auth-main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
+    .auth-card { width: 100%; max-width: 550px; background: var(--panel); border-radius: 12px; padding: 40px 30px; box-shadow: var(--shadow); }
+    .auth-card h1 { margin: 0 0 8px; font-size: 24px; font-weight: 700; color: var(--ink); text-align: center; }
+    .auth-card p { margin: 0 0 24px; font-size: 14px; color: var(--grey-label); text-align: center; }
+    
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+    .full-width { grid-column: 1 / -1; }
+    .form-field { display: block; margin-bottom: 16px; }
+    .form-field span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--grey-label); }
+    .form-input { width: 100%; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); padding: 0 14px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--text); transition: all 0.2s ease; }
+    .form-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
+    
+    .terms { display: flex; gap: 10px; align-items: center; margin: 8px 0 20px; font-size: 12px; color: var(--grey-label); }
+    .terms input { width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; }
+    .terms a { color: var(--blue); text-decoration: none; font-weight: 600; cursor: pointer; }
+    .terms a:hover { text-decoration: underline; }
+    
+    .submit-btn { width: 100%; height: 44px; border: none; border-radius: 8px; background: var(--navy); color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .submit-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+    
+    .small-link { margin: 20px 0 0; font-size: 13px; text-align: center; color: var(--grey-label); }
+    .small-link a { color: var(--blue); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .small-link a:hover { text-decoration: underline; }
+
+    /* Modals */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content { background: #fff; width: 100%; max-width: 500px; border-radius: 12px; display: flex; flex-direction: column; max-height: 85vh; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { margin: 0; font-size: 18px; color: var(--navy); }
+    .close-btn { background: none; border: none; font-size: 24px; color: var(--grey-label); cursor: pointer; line-height: 1; padding: 0; }
+    .close-btn:hover { color: var(--ink); }
+    .modal-body { padding: 24px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: var(--grey-label); }
+    .modal-body h3 { font-size: 14px; color: var(--ink); margin: 16px 0 8px; }
+    .modal-body h3:first-child { margin-top: 0; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; background: #f9fafb; border-radius: 0 0 12px 12px; }
+    .accept-btn { width: 100%; padding: 12px 20px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .accept-btn:hover { background: #2563eb; }
+    
+    .success-icon { font-size: 48px; text-align: center; display: block; margin-bottom: 10px; }
+
+    @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="auth-header">
+    <a href="homepage for user without acc.html" class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" alt="San Juan City Logo" class="sj-logo">
+      PRISM
+    </a>
+    <a class="home-link" href="homepage for user without acc.html">Back to Home</a>
+  </header>
+  
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1>Create an Account</h1>
+      <p>Register to report and track infrastructure issues.</p>
+      
+      <form id="signupForm">
+        <div class="form-grid">
+          <label class="form-field">
+            <span>First Name / Pangalan</span>
+            <input type="text" id="fName" class="form-input" placeholder="Ex. Juan" required />
+          </label>
+          <label class="form-field">
+            <span>Last Name / Apelyido</span>
+            <input type="text" id="lName" class="form-input" placeholder="Ex. Dela Cruz" required />
+          </label>
+          <label class="form-field full-width">
+            <span>Middle Name / Gitnang Pangalan (Optional)</span>
+            <input type="text" id="mName" class="form-input" placeholder="Ex. Santos" />
+          </label>
+          <label class="form-field full-width">
+            <span>Full Address / Kumpletong Tirahan</span>
+            <input type="text" id="address" class="form-input" placeholder="Ex. Barangay 369, Manila" required />
+          </label>
+          <label class="form-field full-width">
+            <span>Email Address</span>
+            <input type="email" id="email" class="form-input" placeholder="example@email.com" required />
+          </label>
+          <label class="form-field full-width">
+            <span>Password</span>
+            <input type="password" id="password" class="form-input" placeholder="Create a strong password" required />
+          </label>
+        </div>
+        
+        <label class="terms">
+          <input type="checkbox" id="termsCheckbox" required />
+          <span>I have read and agree to the <a id="openTermsModal">Terms of Service</a></span>
+        </label>
+        
+        <button class="submit-btn" type="submit">Register Account</button>
+      </form>
+      <p class="small-link">Already have an account? <a href="login.html">Log In Here</a></p>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="termsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Terms of Service</h2>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>1. Acceptance of Terms</h3>
+        <p>By creating an account on the Public Road & Infrastructure System Monitor (PRISM), you agree to abide by these Terms of Service. PRISM is a dedicated transparency platform operated by the City Government of San Juan.</p>
+        <h3>2. Purpose of the Platform</h3>
+        <p>PRISM is designed exclusively for reporting and tracking public infrastructure issues within San Juan City. Any misuse of the platform will result in immediate account suspension.</p>
+        <h3>3. Data Privacy Act of 2012</h3>
+        <p>In compliance with Republic Act No. 10173, the City Government of San Juan collects your personal information solely for the purpose of verifying your identity and sending updates regarding your reports.</p>
+        <h3>4. Accuracy of Information</h3>
+        <p>Users are expected to provide truthful, accurate, and complete information when submitting a report. Uploaded photos must clearly show the reported issue.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="accept-btn" style="width:auto;" id="acceptTermsBtn">I Accept & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+      <div class="modal-body" style="padding: 40px 24px;">
+        <span class="success-icon">✅</span>
+        <h2 style="margin:0 0 10px; color: #10b981; font-size:22px;">Account Created!</h2>
+        <p style="font-size: 14px; margin: 0; color: var(--grey-label);">You have successfully registered. Please log in to continue.</p>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="accept-btn" id="proceedLoginBtn">Proceed to Login</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Terms Modal Logic
+    const termsModal = document.getElementById('termsModal');
+    const termsCheckbox = document.getElementById('termsCheckbox');
+
+    document.getElementById('openTermsModal').addEventListener('click', function(e) {
+      e.preventDefault();
+      termsModal.classList.add('active');
+    });
+
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+      termsModal.classList.remove('active');
+    });
+
+    document.getElementById('acceptTermsBtn').addEventListener('click', function() {
+      termsModal.classList.remove('active');
+      termsCheckbox.checked = true; 
+    });
+
+    // Form Submission & Success Modal Logic (Connected to DB)
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Combine names for database
+      const fName = document.getElementById('fName').value;
+      const lName = document.getElementById('lName').value;
+      const fullName = fName + " " + lName;
+      const userEmail = document.getElementById('email').value;
+
+      // Save user to simulated DB
+      const users = JSON.parse(localStorage.getItem('prism_users') || '[]');
+      
+      // Add new citizen to the top of the array
+      users.unshift({ 
+        role: "Citizen User", 
+        name: fullName, 
+        email: userEmail 
+      });
+      
+      localStorage.setItem('prism_users', JSON.stringify(users));
+
+      // Show Success Modal
+      document.getElementById('successModal').classList.add('active');
+    });
+
+    // Proceed to login
+    document.getElementById('proceedLoginBtn').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
