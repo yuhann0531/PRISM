@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM User Profile</title>
+  <style>
+    :root { --navy:#201f73; --blue:#2f89ff; --ink:#111735; --line:#d4d4d4; --field:#e1e1e1; --soft:#f8f8f8; --text:#101010; --shadow:0 2px 5px rgba(0,0,0,.22); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:#fff; color:var(--text); font-family:Arial, Helvetica, sans-serif; }
+    .header { min-height:58px; background:#e8e8ed; border-bottom:4px solid var(--blue); display:flex; align-items:center; justify-content:space-between; gap:18px; padding:10px clamp(16px,4vw,44px); }
+    .brand { font-size:22px; font-weight:800; color:#000; text-decoration:none; }
+    .nav { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav a { min-width:78px; padding:8px 12px; border-radius:5px; background:#6a6a6a; color:#fff; text-align:center; text-decoration:none; font-size:12px; transition:transform .15s ease, filter .15s ease, box-shadow .15s ease; }
+    .nav a.primary { background:var(--blue); }
+    .nav a.dark { background:var(--ink); }
+    .nav a:hover, .nav a:focus-visible { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 5px 9px rgba(0,0,0,.18); outline:none; }
+    .content { min-height:calc(100vh - 58px); padding:46px clamp(18px,5vw,70px); display:grid; place-items:start center; }
+    .wrap { width:min(900px,100%); }
+    .page-title { margin-bottom:26px; display:flex; justify-content:space-between; gap:22px; align-items:flex-start; }
+    h1 { margin:0 0 8px; font-size:clamp(34px,5vw,52px); line-height:1; }
+    .subtitle { margin:0; color:#444; font-size:16px; }
+    .profile-mark { width:48px; height:48px; border:1.5px solid #111; border-radius:50%; position:relative; flex:0 0 auto; background:#fff; }
+    .profile-mark:before, .profile-mark:after { content:""; position:absolute; left:50%; transform:translateX(-50%); border:1px solid #111; }
+    .profile-mark:before { top:9px; width:14px; height:14px; border-radius:50%; background:#fff; }
+    .profile-mark:after { bottom:8px; width:28px; height:15px; border-radius:17px 17px 0 0; border-bottom:0; }
+    .layout { display:grid; grid-template-columns:minmax(260px,.85fr) minmax(320px,1.15fr); gap:28px; align-items:start; }
+    .card { background:var(--soft); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:26px; }
+    .identity { text-align:center; }
+    .avatar { width:104px; height:104px; border-radius:50%; border:2px solid var(--navy); margin:0 auto 18px; display:grid; place-items:center; font-size:44px; font-weight:800; color:var(--navy); background:#fff; }
+    h2 { margin:0 0 8px; font-size:27px; }
+    .role { margin:0 0 22px; color:#555; font-size:15px; }
+    .quick-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px; }
+    .mini { background:#fff; border:1px solid var(--line); border-radius:7px; padding:13px 8px; }
+    .mini span { display:block; font-size:12px; color:#555; margin-bottom:7px; }
+    .mini strong { font-size:22px; }
+    .details { display:grid; gap:14px; }
+    label { display:block; font-size:13px; font-weight:800; }
+    input, textarea { width:100%; margin-top:6px; border:0; border-radius:5px; background:var(--field); padding:10px 12px; font:inherit; font-weight:400; }
+    textarea { min-height:74px; resize:vertical; }
+    .actions { display:flex; justify-content:flex-end; gap:12px; margin-top:8px; flex-wrap:wrap; }
+    .btn { border:0; border-radius:5px; background:var(--ink); color:#fff; padding:11px 18px; font-weight:800; cursor:pointer; text-decoration:none; transition:transform .15s ease, filter .15s ease, box-shadow .15s ease; }
+    .btn.secondary { background:var(--blue); }
+    .btn:hover, .btn:focus-visible { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 5px 9px rgba(0,0,0,.22); outline:none; }
+    @media (max-width:760px){.header{align-items:flex-start;flex-direction:column}.nav{justify-content:flex-start}.content{padding-top:28px}.layout{grid-template-columns:1fr}.quick-stats{grid-template-columns:1fr}.page-title{align-items:center}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="home.html">PRISM</a>
+    <nav class="nav" aria-label="Profile page navigation">
+      <a href="home.html" class="primary">Home</a>
+      <a href="report-issue.html">Report</a>
+      <a href="about-us.html">About</a>
+      <a href="login.html" class="dark">Log Out</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <div class="wrap">
+      <header class="page-title">
+        <div>
+          <h1>User Profile</h1>
+          <p class="subtitle">Manage your PRISM account information.</p>
+        </div>
+        <div class="profile-mark" aria-label="User profile icon"></div>
+      </header>
+
+      <section class="layout">
+        <article class="card identity">
+          <div class="avatar">U</div>
+          <h2>Juan Dela Cruz</h2>
+          <p class="role">Citizen Account</p>
+          <div class="quick-stats">
+            <div class="mini"><span>Reports</span><strong>4</strong></div>
+            <div class="mini"><span>Solved</span><strong>2</strong></div>
+            <div class="mini"><span>Pending</span><strong>1</strong></div>
+          </div>
+        </article>
+
+        <form class="card details">
+          <label>Full Name<input type="text" value="Juan Dela Cruz" /></label>
+          <label>Email Address<input type="email" value="juandc@gmail.com" /></label>
+          <label>Contact Number<input type="text" value="0912 345 6789" /></label>
+          <label>Address<textarea>Barangay 369, Santa Cruz, Manila</textarea></label>
+          <div class="actions">
+            <a class="btn secondary" href="home.html">Back Home</a>
+            <button class="btn" type="submit">Save Profile</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
