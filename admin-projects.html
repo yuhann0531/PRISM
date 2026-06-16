@@ -10,23 +10,19 @@
   <style>
     :root { --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5; --panel: #ffffff; --line: #cfcfcf; --text: #101010; --grey-label: #666; --shadow: 0 2px 8px rgba(0,0,0,.08); }
     * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); }
-    
     .dashboard-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); }
     .sidebar { background: var(--navy); color: white; padding: 34px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
     .brand { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 40px; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-align: center; }
     .sj-logo { width: 70px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-    
     .side-nav { width: 100%; display: grid; gap: 10px; }
     .nav-item { width: 100%; min-height: 44px; border-radius: 8px; background: transparent; color: rgba(255,255,255,0.7); display: flex; align-items: center; padding: 0 14px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all .2s ease; }
     .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-2px); }
     .nav-item.active { background: var(--blue); color: #fff; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
-    
     .dashboard-content { padding: 32px clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 24px; overflow: auto; }
     .topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
     h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; font-weight: 700; color: #111; }
     .status { font-size: 14px; color: var(--grey-label); font-weight: 500; display: flex; align-items: center; gap: 6px; }
     .status-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); }
-    
     .profile-wrapper { position: relative; }
     .profile { width: 42px; height: 42px; border: 1.5px solid #111; border-radius: 50%; display: grid; place-items: center; font-size: 22px; background: #fff; cursor: pointer; transition: all 0.2s ease; }
     .profile:hover { background: #f8f8f8; } .profile::before { content: '\1F464'; position: absolute; }
@@ -35,11 +31,9 @@
     .profile-dropdown a { display: flex; justify-content: center; align-items: center; height: 40px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.2s ease; }
     .btn-profile { background: #f0f2f5; color: var(--ink); border: 1px solid var(--line); } .btn-profile:hover { background: #e2e8f0; }
     .btn-logout { background: #ef4444; color: white; } .btn-logout:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
-
     .header-actions { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; }
     .btn-create { background: var(--navy); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
     .btn-create:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
-
     .table-container { background: var(--panel); border-radius: 12px; box-shadow: var(--shadow); overflow-x: auto; }
     table { width: 100%; min-width: 800px; border-collapse: collapse; font-size: 14px; }
     th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #f0f0f0; }
@@ -47,11 +41,8 @@
     tr:last-child td { border-bottom: 0; }
     td:nth-child(1) { font-weight: 600; color: var(--ink); }
     th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5), th:nth-child(6), td:nth-child(6) { text-align: center; }
-    
     .badge { display: inline-block; min-width: 90px; padding: 6px 10px; border-radius: 8px; font-size: 12px; text-align: center; font-weight: 600; }
-    .planning { background: #cfc8ff; color: #2d246d; } .progress { background: #ffd58b; color: #6b3f00; } .delayed { background: #ff8a8a; color: #7d0000; } .completed { background: #c3fce0; color: #0d5e3c; }
-    
-    /* MODAL STYLES */
+    .Planning { background: #cfc8ff; color: #2d246d; } .In\ Progress { background: #ffd58b; color: #6b3f00; } .Delayed { background: #ff8a8a; color: #7d0000; } .Completed { background: #c3fce0; color: #0d5e3c; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
     .modal-overlay.active { opacity: 1; visibility: visible; }
     .modal-content { background: #fff; width: 100%; max-width: 600px; border-radius: 12px; display: flex; flex-direction: column; max-height: 90vh; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
@@ -60,7 +51,6 @@
     .modal-header h2 { margin: 0; font-size: 18px; color: var(--navy); }
     .close-btn { background: none; border: none; font-size: 24px; color: var(--grey-label); cursor: pointer; line-height: 1; padding: 0; }
     .close-btn:hover { color: var(--ink); }
-    
     .modal-body { padding: 24px; overflow-y: auto; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .full-width { grid-column: 1 / -1; }
@@ -69,13 +59,10 @@
     .form-input { width: 100%; height: 44px; border: 1px solid #cfcfcf; border-radius: 8px; background: #f9fafb; padding: 0 14px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--text); transition: all 0.2s ease; }
     .form-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
     select.form-input { cursor: pointer; }
-
     .modal-footer { padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px; background: #f9fafb; border-radius: 0 0 12px 12px; }
-    .cancel-btn { padding: 10px 20px; background: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .cancel-btn:hover { background: #d1d5db; }
-    .accept-btn { padding: 10px 20px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .cancel-btn { padding: 10px 20px; background: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .accept-btn { padding: 10px 20px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
     .accept-btn:hover { background: #2563eb; }
-
     @media (max-width: 850px) { .dashboard-shell { grid-template-columns: 80px minmax(0, 1fr); } .brand { font-size: 0; } .sj-logo { width: 45px; } .nav-item { justify-content: center; padding: 0; } .nav-item span { display: none; } }
     @media (max-width: 600px) { .dashboard-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .sidebar { flex-direction: row; justify-content: space-between; padding: 12px 20px; } .brand { flex-direction: row; margin: 0; font-size: 20px; } .sj-logo { width: 35px; } .side-nav { display: none; } .topbar, .header-actions { flex-direction: column; align-items: stretch; gap: 16px; } .profile-wrapper { align-self: flex-end; margin-top: -50px; } .form-grid { grid-template-columns: 1fr; } }
   </style>
@@ -129,40 +116,7 @@
               <th>Completion %</th>
             </tr>
           </thead>
-          <tbody id="projectTableBody">
-            <tr>
-              <td>Multi-Purpose Bldg (Phase XIII)</td>
-              <td>DEVEX INCORPORATED</td>
-              <td>Brgy. Saint Joseph</td>
-              <td><span class="badge planning">Planning</span></td>
-              <td>₱ 49.4M</td>
-              <td>5%</td>
-            </tr>
-            <tr>
-              <td>Justice Hall & Shrine Rehab</td>
-              <td>GENETIAN BUILDERS INC.</td>
-              <td>Pinaglabanan St.</td>
-              <td><span class="badge progress">In Progress</span></td>
-              <td>₱ 16.9M</td>
-              <td>35%</td>
-            </tr>
-            <tr>
-              <td>San Juan NHS Retrofitting</td>
-              <td>GENUINE BUILDERS</td>
-              <td>P.A. Narciso St.</td>
-              <td><span class="badge progress">In Progress</span></td>
-              <td>₱ 7.5M</td>
-              <td>65%</td>
-            </tr>
-            <tr>
-              <td>San Juan Elem. Retrofitting</td>
-              <td>RED MATRIX BUILDERS</td>
-              <td>N. Domingo St.</td>
-              <td><span class="badge completed">Completed</span></td>
-              <td>₱ 7.5M</td>
-              <td>100%</td>
-            </tr>
-          </tbody>
+          <tbody id="projectTableBody"></tbody>
         </table>
       </section>
     </section>
@@ -181,12 +135,10 @@
               <span>Project Name</span>
               <input type="text" id="inputProjName" class="form-input" placeholder="e.g., Road Widening Phase 2" required />
             </label>
-            
             <label class="form-field">
               <span>Assigned Contractor</span>
               <input type="text" id="inputProjContractor" class="form-input" placeholder="e.g., DEVEX INCORPORATED" required />
             </label>
-            
             <label class="form-field">
               <span>Location / Street</span>
               <select id="inputProjLocation" class="form-input" required>
@@ -196,7 +148,6 @@
                 <option value="N. Domingo Street">N. Domingo Street</option>
               </select>
             </label>
-            
             <label class="form-field">
               <span>Total Budget (₱)</span>
               <input type="text" id="inputProjBudget" class="form-input" placeholder="e.g., 5.5M" required />
@@ -222,7 +173,24 @@
   </div>
 
   <script>
-    // Profile & Clock Logic
+    async function loadProjects() {
+      const projects = await fetch('api/projects.php').then(r => r.json());
+      const tbody = document.getElementById('projectTableBody');
+      tbody.innerHTML = '';
+      projects.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.contractor}</td>
+            <td>${p.location}</td>
+            <td><span class="badge ${p.status}">${p.status}</span></td>
+            <td>₱ ${p.budget}</td>
+            <td>0%</td>
+          </tr>`;
+      });
+    }
+    loadProjects();
+
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profileDropdown.classList.toggle('active'); });
@@ -234,59 +202,31 @@
     }
     setInterval(updateClock, 1000); updateClock();
 
-    // Modal & Table Update Logic
     const createModal = document.getElementById('createProjectModal');
-    const openCreateBtn = document.getElementById('openCreateModalBtn');
-    const closeCreateBtn = document.getElementById('closeModalBtn');
-    const cancelCreateBtn = document.getElementById('cancelModalBtn');
     const createForm = document.getElementById('createProjectForm');
-    const tableBody = document.getElementById('projectTableBody');
 
-    const closeModal = () => {
-      createModal.classList.remove('active');
-      createForm.reset(); 
-    };
+    const closeModal = () => { createModal.classList.remove('active'); createForm.reset(); };
 
-    openCreateBtn.addEventListener('click', () => createModal.classList.add('active'));
-    closeCreateBtn.addEventListener('click', closeModal);
-    cancelCreateBtn.addEventListener('click', closeModal);
+    document.getElementById('openCreateModalBtn').addEventListener('click', () => createModal.classList.add('active'));
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
     window.addEventListener('click', (e) => { if (e.target === createModal) closeModal(); });
 
-    // Handle Form Submission and Update Table
-    createForm.addEventListener('submit', (e) => {
-      e.preventDefault(); 
-
-      // 1. Get values from the form inputs
-      const pName = document.getElementById('inputProjName').value;
-      const pContractor = document.getElementById('inputProjContractor').value;
-      const pLocation = document.getElementById('inputProjLocation').value;
-      const pBudget = document.getElementById('inputProjBudget').value;
-      const pStatus = document.getElementById('inputProjStatus').value;
-
-      // 2. Determine the correct CSS badge class based on the chosen status
-      let badgeClass = 'planning';
-      if (pStatus === 'In Progress') badgeClass = 'progress';
-      else if (pStatus === 'Delayed') badgeClass = 'delayed';
-      else if (pStatus === 'Completed') badgeClass = 'completed';
-
-      // 3. Create a brand new table row element
-      const newRow = document.createElement('tr');
-
-      // 4. Inject the data into the row using HTML
-      newRow.innerHTML = `
-        <td>${pName}</td>
-        <td>${pContractor}</td>
-        <td>${pLocation}</td>
-        <td><span class="badge ${badgeClass}">${pStatus}</span></td>
-        <td>₱ ${pBudget}</td>
-        <td>0%</td>
-      `;
-
-      // 5. Add the new row to the top of the table list
-      tableBody.insertBefore(newRow, tableBody.firstChild);
-
-      // 6. Close the modal smoothly
+    createForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('api/projects.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('inputProjName').value,
+          contractor: document.getElementById('inputProjContractor').value,
+          location: document.getElementById('inputProjLocation').value,
+          budget: document.getElementById('inputProjBudget').value,
+          status: document.getElementById('inputProjStatus').value
+        })
+      });
       closeModal();
+      loadProjects();
     });
   </script>
 </body>

@@ -10,23 +10,19 @@
   <style>
     :root { --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5; --panel: #ffffff; --line: #cfcfcf; --text: #101010; --grey-label: #666; --shadow: 0 2px 8px rgba(0,0,0,.08); }
     * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); }
-    
     .dashboard-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); }
     .sidebar { background: var(--navy); color: white; padding: 34px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
     .brand { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 40px; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-align: center; }
     .sj-logo { width: 70px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-    
     .side-nav { width: 100%; display: grid; gap: 10px; }
     .nav-item { width: 100%; min-height: 44px; border-radius: 8px; background: transparent; color: rgba(255,255,255,0.7); display: flex; align-items: center; padding: 0 14px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all .2s ease; }
     .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-2px); }
     .nav-item.active { background: var(--blue); color: #fff; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
-    
     .dashboard-content { padding: 32px clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 24px; overflow: auto; }
     .topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
     h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; font-weight: 700; color: #111; }
     .status { font-size: 14px; color: var(--grey-label); font-weight: 500; display: flex; align-items: center; gap: 6px; }
     .status-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); }
-    
     .profile-wrapper { position: relative; }
     .profile { width: 42px; height: 42px; border: 1.5px solid #111; border-radius: 50%; display: grid; place-items: center; font-size: 22px; background: #fff; cursor: pointer; transition: all 0.2s ease; }
     .profile:hover { background: #f8f8f8; } .profile::before { content: '\1F464'; position: absolute; }
@@ -34,43 +30,30 @@
     .profile-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
     .profile-dropdown a { display: flex; justify-content: center; align-items: center; height: 40px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.2s ease; }
     .btn-profile { background: #f0f2f5; color: var(--ink); border: 1px solid var(--line); } .btn-profile:hover { background: #e2e8f0; }
-    .btn-logout { background: #ef4444; color: white; } .btn-logout:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
-
+    .btn-logout { background: #ef4444; color: white; } .btn-logout:hover { filter: brightness(1.1); }
     .header-actions { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; }
     .btn-create { background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-    .btn-create:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
-
+    .btn-create:hover { background: #059669; transform: translateY(-2px); }
     .table-container { background: var(--panel); border-radius: 12px; box-shadow: var(--shadow); overflow-x: auto; }
     table { width: 100%; min-width: 800px; border-collapse: collapse; font-size: 14px; }
     th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #f0f0f0; }
     th { font-weight: 600; color: var(--grey-label); text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; background: #fafafa; }
     tr:last-child td { border-bottom: 0; }
     td:nth-child(2) { font-weight: 600; color: var(--ink); }
-    
-    /* Modern Action Button */
     .action-btn { background: #f0fdf4; color: #10b981; border: 1px solid #bbf7d0; padding: 6px 14px; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-    .action-btn:hover { background: #10b981; color: white; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2); }
-
-    /* Role Badge Colors */
+    .action-btn:hover { background: #10b981; color: white; }
     .role-Contractor { color: var(--blue); font-weight: 600; }
     .role-Admin { color: #ef4444; font-weight: 600; }
     .role-Citizen { color: var(--grey-label); font-weight: 600; }
-
-    /* --- UPGRADED MODAL STYLES --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
     .modal-overlay.active { opacity: 1; visibility: visible; }
-    
     .modal-content { background: #fff; width: 100%; max-width: 600px; border-radius: 12px; display: flex; flex-direction: column; max-height: 90vh; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .modal-overlay.active .modal-content { transform: translateY(0); }
-    
     .modal-header { padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
     .modal-header h2 { margin: 0; font-size: 18px; color: var(--navy); }
-    .close-btn { background: none; border: none; font-size: 24px; color: var(--grey-label); cursor: pointer; line-height: 1; padding: 0; transition: color 0.2s; }
+    .close-btn { background: none; border: none; font-size: 24px; color: var(--grey-label); cursor: pointer; line-height: 1; padding: 0; }
     .close-btn:hover { color: var(--ink); }
-    
     .modal-body { padding: 24px; overflow-y: auto; }
-    
-    /* Clean 2-column Grid for Forms */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .full-width { grid-column: 1 / -1; }
     .form-field { display: block; }
@@ -79,18 +62,13 @@
     .form-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
     select.form-input { cursor: pointer; }
     .help-text { color: var(--grey-label); font-size: 11px; margin-top: 6px; display: block; }
-
     .modal-footer { padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px; background: #f9fafb; border-radius: 0 0 12px 12px; align-items: center; }
-    
-    .cancel-btn { padding: 10px 20px; background: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .cancel-btn { padding: 10px 20px; background: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
     .cancel-btn:hover { background: #d1d5db; }
-    .accept-btn { padding: 10px 20px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .accept-btn { padding: 10px 20px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
     .accept-btn:hover { background: #2563eb; }
-    
-    /* Delete button aligned to left */
     .delete-btn { padding: 10px 20px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-right: auto; }
     .delete-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
-
     @media (max-width: 850px) { .dashboard-shell { grid-template-columns: 80px minmax(0, 1fr); } .brand { font-size: 0; } .sj-logo { width: 45px; } .nav-item { justify-content: center; padding: 0; } .nav-item span { display: none; } }
     @media (max-width: 600px) { .dashboard-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .sidebar { flex-direction: row; justify-content: space-between; padding: 12px 20px; } .brand { flex-direction: row; margin: 0; font-size: 20px; } .sj-logo { width: 35px; } .side-nav { display: none; } .topbar, .header-actions { flex-direction: column; align-items: stretch; gap: 16px; } .profile-wrapper { align-self: flex-end; margin-top: -50px; } .form-grid { grid-template-columns: 1fr; } }
   </style>
@@ -143,8 +121,7 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="userTableBody">
-            </tbody>
+          <tbody id="userTableBody"></tbody>
         </table>
       </section>
     </section>
@@ -199,7 +176,7 @@
       </div>
       <div class="modal-body">
         <form id="manageForm">
-          <input type="hidden" id="editIndex">
+          <input type="hidden" id="editId">
           <div class="form-grid">
             <label class="form-field full-width">
               <span>Account Role</span>
@@ -233,7 +210,6 @@
   </div>
 
   <script>
-    // --- Clock & Profile Dropdown ---
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profileDropdown.classList.toggle('active'); });
@@ -245,101 +221,90 @@
     }
     setInterval(updateClock, 1000); updateClock();
 
-    // --- Load Users from Database ---
-    function loadUsers() {
-      const users = JSON.parse(localStorage.getItem('prism_users') || '[]');
+    async function loadUsers() {
+      const users = await fetch('api/users.php').then(r => r.json());
       const tbody = document.getElementById('userTableBody');
       tbody.innerHTML = '';
-      
-      users.forEach((u, index) => {
-        let rc = 'role-Citizen'; // default
-        if(u.role === 'Contractor') rc = 'role-Contractor';
-        if(u.role === 'City Admin') rc = 'role-Admin';
-
+      users.forEach(u => {
+        let rc = 'role-Citizen';
+        if (u.role === 'Contractor') rc = 'role-Contractor';
+        if (u.role === 'City Admin') rc = 'role-Admin';
         tbody.innerHTML += `
           <tr>
             <td><span class="${rc}">${u.role}</span></td>
             <td>${u.name}</td>
             <td>${u.email}</td>
             <td>Encrypted (••••••••)</td>
-            <td><button class="action-btn" onclick="openEdit(${index})">Manage User</button></td>
-          </tr>
-        `;
+            <td><button class="action-btn" onclick="openEdit(${u.id}, '${u.role}', '${u.name}', '${u.email}')">Manage User</button></td>
+          </tr>`;
       });
     }
     loadUsers();
 
-    // --- Add Modal Logic ---
     document.getElementById('openAddBtn').onclick = () => document.getElementById('addModal').classList.add('active');
-    
-    document.getElementById('addForm').onsubmit = (e) => {
+
+    document.getElementById('addForm').onsubmit = async (e) => {
       e.preventDefault();
-      const users = JSON.parse(localStorage.getItem('prism_users') || '[]');
-      
-      // Add new user to the top of the array
-      users.unshift({ 
-        role: document.getElementById('addRole').value, 
-        name: document.getElementById('addName').value, 
-        email: document.getElementById('addEmail').value 
+      await fetch('api/users.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: document.getElementById('addRole').value,
+          name: document.getElementById('addName').value,
+          email: document.getElementById('addEmail').value,
+          password: document.getElementById('addPass').value
+        })
       });
-      
-      localStorage.setItem('prism_users', JSON.stringify(users));
-      closeM('addModal'); 
+      closeM('addModal');
       loadUsers();
     };
 
-    // --- Manage Modal Logic ---
-    window.openEdit = (index) => {
-      const users = JSON.parse(localStorage.getItem('prism_users'));
-      document.getElementById('editIndex').value = index;
-      document.getElementById('editRole').value = users[index].role;
-      document.getElementById('editName').value = users[index].name;
-      document.getElementById('editEmail').value = users[index].email;
-      document.getElementById('editPass').value = ''; // clear password field
+    window.openEdit = (id, role, name, email) => {
+      document.getElementById('editId').value = id;
+      document.getElementById('editRole').value = role;
+      document.getElementById('editName').value = name;
+      document.getElementById('editEmail').value = email;
+      document.getElementById('editPass').value = '';
       document.getElementById('manageModal').classList.add('active');
     };
-    
-    document.getElementById('manageForm').onsubmit = (e) => {
+
+    document.getElementById('manageForm').onsubmit = async (e) => {
       e.preventDefault();
-      const users = JSON.parse(localStorage.getItem('prism_users'));
-      const idx = document.getElementById('editIndex').value;
-      
-      // Update the specific user
-      users[idx].role = document.getElementById('editRole').value;
-      users[idx].name = document.getElementById('editName').value;
-      users[idx].email = document.getElementById('editEmail').value;
-      
-      localStorage.setItem('prism_users', JSON.stringify(users));
-      closeM('manageModal'); 
+      await fetch('api/users.php', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: document.getElementById('editId').value,
+          role: document.getElementById('editRole').value,
+          name: document.getElementById('editName').value,
+          email: document.getElementById('editEmail').value,
+          password: document.getElementById('editPass').value
+        })
+      });
+      closeM('manageModal');
       loadUsers();
     };
-    
-    // --- Delete User Logic ---
-    document.getElementById('deleteBtn').onclick = () => {
-      if(confirm('Are you sure you want to permanently delete this user account?')) {
-        const users = JSON.parse(localStorage.getItem('prism_users'));
-        const idx = document.getElementById('editIndex').value;
-        
-        users.splice(idx, 1); // remove 1 item at index
-        localStorage.setItem('prism_users', JSON.stringify(users));
-        
-        closeM('manageModal'); 
+
+    document.getElementById('deleteBtn').onclick = async () => {
+      if (confirm('Are you sure you want to permanently delete this user account?')) {
+        await fetch('api/users.php', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: document.getElementById('editId').value })
+        });
+        closeM('manageModal');
         loadUsers();
       }
     };
 
-    // Helper to close modals and clear forms
-    function closeM(id) { 
-      document.getElementById(id).classList.remove('active'); 
-      if(id === 'addModal') document.getElementById('addForm').reset();
-      if(id === 'manageModal') document.getElementById('manageForm').reset();
+    function closeM(id) {
+      document.getElementById(id).classList.remove('active');
+      if (id === 'addModal') document.getElementById('addForm').reset();
+      if (id === 'manageModal') document.getElementById('manageForm').reset();
     }
 
-    // Close Modals if clicking outside the white box
     window.onclick = (e) => {
-      if (e.target.classList.contains('modal-overlay')) {
-        e.target.classList.remove('active');
-      }
+      if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
     };
   </script>
 </body>

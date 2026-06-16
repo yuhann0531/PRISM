@@ -20,20 +20,17 @@
     h1 { margin: 0 0 8px; font-size: 28px; font-weight: 700; color: #111; } h2 { margin: 10px 0 0; font-size: 20px; font-weight: 600; }
     .status { font-size: 14px; color: var(--grey-label); font-weight: 500; display: flex; align-items: center; gap: 6px; }
     .status-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); }
-    
     .profile-wrapper { position: relative; } .profile { width: 42px; height: 42px; border: 1.5px solid #111; border-radius: 50%; display: grid; place-items: center; font-size: 22px; background: #fff; cursor: pointer; }
     .profile::before { content: '\1F464'; position: absolute; }
     .profile-dropdown { position: absolute; top: calc(100% + 12px); right: 0; background: var(--panel); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid #eaeaea; width: 200px; padding: 16px; display: flex; flex-direction: column; gap: 12px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.25s ease; z-index: 2000; }
     .profile-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
     .profile-dropdown a { display: flex; justify-content: center; align-items: center; height: 40px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
     .btn-profile { background: #f0f2f5; color: var(--ink); border: 1px solid var(--line); } .btn-logout { background: #ef4444; color: white; }
-    
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
     .stat-card { background: var(--panel); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); transition: transform 0.2s ease; }
     .stat-card:hover { transform: translateY(-3px); }
     .stat-card p { margin: 0 0 10px; font-size: 14px; color: var(--grey-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-card strong { font-size: 32px; line-height: 1; color: var(--ink); font-weight: 700; }
-    
     @media (max-width: 850px) { .dashboard-shell { grid-template-columns: 80px minmax(0, 1fr); } .brand { font-size: 0; } .nav-item span { display: none; } }
   </style>
 </head>
@@ -69,57 +66,42 @@
 
       <h2>Infrastructure Projects</h2>
       <section class="stats">
-        <article class="stat-card"><p>Total Budget</p><strong id="ad-budget">₱ 0M</strong></article>
-        <article class="stat-card"><p>Active Projects</p><strong id="ad-active">0</strong></article>
-        <article class="stat-card"><p>Completed This Year</p><strong id="ad-complete">0</strong></article>
+        <article class="stat-card"><p>Total Budget</p><strong id="ad-budget">—</strong></article>
+        <article class="stat-card"><p>Active Projects</p><strong id="ad-active">—</strong></article>
+        <article class="stat-card"><p>Completed This Year</p><strong id="ad-complete">—</strong></article>
       </section>
 
       <h2>Citizen Incident Reports</h2>
       <section class="stats">
-        <article class="stat-card"><p>Pending Reports</p><strong id="ad-pending">0</strong></article>
-        <article class="stat-card" style="border-left: 4px solid #10b981;"><p>Solved Reports</p><strong id="ad-solved">0</strong></article>
-        <article class="stat-card" style="border-left: 4px solid #ef4444;"><p>Dismissed Reports</p><strong id="ad-dismissed">0</strong></article>
+        <article class="stat-card"><p>Pending Reports</p><strong id="ad-pending">—</strong></article>
+        <article class="stat-card" style="border-left: 4px solid #10b981;"><p>Solved Reports</p><strong id="ad-solved">—</strong></article>
+        <article class="stat-card" style="border-left: 4px solid #ef4444;"><p>Dismissed Reports</p><strong id="ad-dismissed">—</strong></article>
       </section>
 
       <h2>System Accounts</h2>
       <section class="stats">
-        <article class="stat-card"><p>Registered Contractors</p><strong id="ad-contractors">0</strong></article>
-        <article class="stat-card"><p>Registered Citizens</p><strong id="ad-citizens">0</strong></article>
-        <article class="stat-card"><p>Active Admins</p><strong id="ad-admins">0</strong></article>
+        <article class="stat-card"><p>Registered Contractors</p><strong id="ad-contractors">—</strong></article>
+        <article class="stat-card"><p>Registered Citizens</p><strong id="ad-citizens">—</strong></article>
+        <article class="stat-card"><p>Active Admins</p><strong id="ad-admins">—</strong></article>
       </section>
     </section>
   </main>
 
   <script>
-    // Calculate Live Stats
-    function loadAdminDashboard() {
-      const projects = JSON.parse(localStorage.getItem('prism_projects') || '[]');
-      const reports = JSON.parse(localStorage.getItem('prism_reports') || '[]');
-      const users = JSON.parse(localStorage.getItem('prism_users') || '[]');
-
-      // Projects Math
-      let budget = 0; let active = 0; let completed = 0;
-      projects.forEach(p => { 
-        budget += parseFloat(p.budget);
-        if(p.status === 'completed') completed++; else active++;
-      });
-      document.getElementById('ad-budget').innerText = `₱ ${budget.toFixed(1)}M`;
-      document.getElementById('ad-active').innerText = active;
-      document.getElementById('ad-complete').innerText = completed;
-
-      // Reports Math
-      document.getElementById('ad-pending').innerText = reports.filter(r => r.status === 'pending').length;
-      document.getElementById('ad-solved').innerText = reports.filter(r => r.status === 'solved').length;
-      document.getElementById('ad-dismissed').innerText = reports.filter(r => r.status === 'dismissed').length;
-
-      // Users Math
-      document.getElementById('ad-contractors').innerText = users.filter(u => u.role === 'Contractor').length;
-      document.getElementById('ad-citizens').innerText = users.filter(u => u.role === 'Citizen User').length;
-      document.getElementById('ad-admins').innerText = users.filter(u => u.role === 'City Admin').length;
+    async function loadAdminDashboard() {
+      const data = await fetch('api/dashboard.php').then(r => r.json());
+      document.getElementById('ad-budget').innerText = `₱ ${parseFloat(data.budget || 0).toFixed(1)}M`;
+      document.getElementById('ad-active').innerText = data.active || 0;
+      document.getElementById('ad-complete').innerText = data.completed || 0;
+      document.getElementById('ad-pending').innerText = data.pending || 0;
+      document.getElementById('ad-solved').innerText = data.solved || 0;
+      document.getElementById('ad-dismissed').innerText = data.dismissed || 0;
+      document.getElementById('ad-contractors').innerText = data.contractors || 0;
+      document.getElementById('ad-citizens').innerText = data.citizens || 0;
+      document.getElementById('ad-admins').innerText = data.admins || 0;
     }
     loadAdminDashboard();
 
-    // UI Logic
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profileDropdown.classList.toggle('active'); });
