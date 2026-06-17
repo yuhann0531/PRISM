@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About PRISM | San Juan City</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --navy: #0a0944; 
+      --blue: #3b82f6; 
+      --ink: #111111; 
+      --page: #f0f2f5;
+      --panel: #ffffff;
+      --line: #e5e7eb;
+      --text: #1f2937;
+      --grey-label: #4b5563;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body { 
+      margin: 0; 
+      min-height: 100vh; 
+      color: var(--text); 
+      font-family: 'Poppins', sans-serif; 
+      background: var(--page); 
+      display: flex; 
+      flex-direction: column; 
+    }
+    
+    /* Header (Matches PRISM ecosystem) */
+    .auth-header { 
+      height: 70px; 
+      background: var(--navy); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 5%; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100;
+    }
+    
+    .brand { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      color: #fff; 
+      font-size: 22px; 
+      font-weight: 800; 
+      letter-spacing: 1px; 
+      text-decoration: none;
+    }
+    
+    .sj-logo { 
+      width: 40px; 
+      height: auto; 
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); 
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .nav-link { 
+      padding: 8px 16px; 
+      border-radius: 6px; 
+      color: #fff; 
+      text-decoration: none; 
+      font-size: 13px; 
+      font-weight: 500; 
+      transition: all 0.2s ease; 
+    }
+    
+    .nav-link:hover { background: rgba(255,255,255,0.1); }
+    
+    .btn-login { background: rgba(255,255,255,0.15); }
+    .btn-login:hover { background: rgba(255,255,255,0.25); }
+    .btn-signup { background: var(--blue); }
+    .btn-signup:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+    /* Main Content */
+    .about-main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Hero Section */
+    .hero-card {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 48px 40px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      border-top: 5px solid var(--blue);
+    }
+    
+    .hero-card h1 {
+      margin: 0 0 16px;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    
+    .hero-card p {
+      margin: 0 auto 32px;
+      max-width: 800px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--grey-label);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f0f2f5;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    /* Grid Layouts */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .info-card {
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 32px 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .info-card h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .info-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--grey-label);
+    }
+
+    /* Lists and Contact specifically */
+    .info-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--grey-label);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .info-card ul li {
+      margin-bottom: 8px;
+    }
+    
+    .info-card ul li:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-details strong {
+      display: block;
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .contact-details p {
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .auth-header { flex-direction: column; padding: 16px; height: auto; gap: 16px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+      .about-main { padding: 0 16px; margin: 24px auto; }
+      .hero-card { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="auth-header">
+    <a href="homepage for user without acc.html" class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" alt="San Juan City Logo" class="sj-logo">
+      PRISM
+    </a>
+    <nav class="nav-links" aria-label="About page navigation">
+      <a href="homepage for user without acc.html" class="nav-link">Home</a>
+      <a href="login.html" class="nav-link btn-login">Login</a>
+      <a href="signup.html" class="nav-link btn-signup">Sign Up</a>
+    </nav>
+  </header>
+
+  <main class="about-main">
+    
+    <section class="hero-card">
+      <h1>About PRISM</h1>
+      <p>PRISM is a public infrastructure monitoring system that helps citizens report issues, contractors update project progress, and city admins manage reports and public works in one place.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="report-issue.html">Report an Issue</a>
+        <a class="btn-secondary" href="homepage for user without acc.html">Go to Dashboard</a>
+      </div>
+    </section>
+
+    <section class="features-grid">
+      <article class="info-card">
+        <h2>Mission</h2>
+        <p>Make infrastructure updates clearer, faster, and easier for the community to follow.</p>
+      </article>
+      
+      <article class="info-card">
+        <h2>Vision</h2>
+        <p>A city where public works are transparent and citizens can participate with confidence.</p>
+      </article>
+      
+      <article class="info-card">
+        <h2>Purpose</h2>
+        <p>Connect citizens, contractors, and administrators through organized reports and project tracking.</p>
+      </article>
+    </section>
+
+    <section class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+      <article class="info-card">
+        <h2>What PRISM Can Do</h2>
+        <ul>
+          <li>Submit infrastructure reports with photos.</li>
+          <li>Track project status and completion.</li>
+          <li>Manage contractors, users, and citizen reports.</li>
+          <li>Publish notices about road work and repairs.</li>
+        </ul>
+      </article>
+      
+      <article class="info-card contact-details">
+        <h2>Contact</h2>
+        <strong>City Infrastructure Office</strong>
+        <p>📧 citybuilding@sanjuancity.gov.ph</p>
+        <p>📧 sanjuan_buildingofficial@yahoo.com</p>
+        <p>📞 (02) 7729-0005 Local 249</p>
+        <p>🕒 Office Hours: Monday to Friday, 7:00 AM - 4:00 PM</p>
+      </article>
+    </section>
+
+  </main>
+</body>
+</html>
