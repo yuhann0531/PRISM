@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM | Secure Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy: #0a0944; --blue: #3b82f6; --ink: #111111; --page: #f0f2f5; --panel: #ffffff; --line: #e5e7eb; --field: #f9fafb; --text: #1f2937; --grey-label: #4b5563; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: 'Poppins', sans-serif; background: var(--page); display: flex; flex-direction: column; }
+    .auth-header { height: 70px; background: var(--navy); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .brand { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; text-decoration: none;}
+    .sj-logo { width: 40px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .home-link { padding: 8px 16px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer; border: none; font-family: 'Poppins'; }
+    .home-link:hover { background: rgba(255,255,255,0.2); }
+    .auth-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+    .auth-card { width: 100%; max-width: 400px; background: var(--panel); border-radius: 12px; padding: 40px 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid var(--blue); }
+    .form-field { display: block; margin-bottom: 16px; position: relative; }
+    .form-field span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--grey-label); }
+    .form-input { width: 100%; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); padding: 0 14px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--text); transition: all 0.2s ease; }
+    .form-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #fff; }
+    .form-input.error { border-color: #ef4444; background: #fef2f2; }
+    .submit-btn { width: 100%; height: 44px; margin-top: 8px; border: none; border-radius: 8px; background: linear-gradient(135deg, #0a0944, #3b82f6); color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4); }
+    .small-link { margin: 20px 0 0; font-size: 13px; text-align: center; color: var(--grey-label); }
+    .small-link a { color: var(--blue); text-decoration: none; font-weight: 600; } .small-link a:hover { text-decoration: underline; }
+    .forgot-pass { position: absolute; right: 0; top: 0; font-size: 12px; color: var(--blue); text-decoration: none; font-weight: 600; }
+    .forgot-pass:hover { text-decoration: underline; }
+    .terms-box { margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--line); text-align: center; font-size: 11px; color: var(--grey-label); line-height: 1.5; }
+    .terms-box a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .error-popup { display: none; background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 20px; border: 1px solid #f87171; animation: shake 0.4s; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  </style>
+</head>
+<body>
+  <header class="auth-header">
+    <a href="Front-End/homepageUnlogged.html" class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" alt="San Juan City Logo" class="sj-logo">
+      PRISM
+    </a>
+    <button class="home-link" id="backBtn">Back to Dashboard</button>
+  </header>
+  
+  <main class="auth-main">
+    <div class="auth-card">
+      
+      <div style="text-align: center; margin-bottom: 25px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Seal_of_San_Juan%2C_Metro_Manila.png?_=20200209173841" style="width: 70px; margin-bottom: 10px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));">
+        <h2 style="margin: 0; font-size: 22px; color: var(--navy);">PRISM Login</h2>
+      </div>
+
+      <div id="errorBox" class="error-popup"></div>
+
+      <form id="loginForm">
+        <label class="form-field">
+          <span><b style="color: #ef4444;">*</b> Email Address</span>
+          <input type="email" id="emailInput" class="form-input" placeholder="example@email.com" required />
+        </label>
+        
+        <label class="form-field">
+          <span><b style="color: #ef4444;">*</b> Password</span>
+			<a href="Front-End/forgot-password.html" class="forgot-pass">Forgot Password?</a>
+          <input type="password" id="passwordInput" class="form-input" placeholder="••••••••" required />
+        </label>
+        
+        <button class="submit-btn" type="submit">Secure Log In</button>
+      </form>
+      
+      <p class="small-link">New User? <a href="Front-End/register.html">Register Here</a></p>
+      
+      <div class="terms-box">
+        By logging in, you agree to our <br>
+        <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>.
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('prism_current_user')) {
+            window.location.href = 'Front-End/homepageLogged.html';
+        }
+    });
+
+    document.getElementById('backBtn').addEventListener('click', function() {
+        if (localStorage.getItem('prism_current_user')) {
+            window.location.href = 'Front-End/homepageLogged.html'; 
+        } else {
+            window.location.href = 'Front-End/homepageUnlogged.html'; 
+        }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.toLowerCase().trim();
+      const password = document.getElementById('passwordInput').value;
+      const errorBox = document.getElementById('errorBox');
+      const passInput = document.getElementById('passwordInput');
+      
+      // Reset errors
+      errorBox.style.display = 'none';
+      passInput.classList.remove('error');
+
+      fetch('Back-End/API/login-user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+      })
+      .then(async response => {
+        const text = await response.text(); 
+        try {
+            const data = JSON.parse(text);
+            if(data.message === 'Successful login.') {
+              localStorage.setItem('prism_current_user', JSON.stringify(data.user));
+              const role = data.user.role.toLowerCase();
+              
+              if(role === 'admin') window.location.href = 'Front-End/admin-dashboard.html';
+              else if (role === 'superadmin') window.location.href = 'Front-End/superadmin-dashboard.html';
+              else if (role === 'contractor') window.location.href = 'Front-End/contractor-dashboard.html';
+              else window.location.href = 'Front-End/homepageLogged.html';
+            } else {
+              // TRIGGERS RED POPUP INSTEAD OF BROWSER ALERT
+              errorBox.style.display = 'block';
+              errorBox.innerText = "❌ " + data.message;
+              passInput.classList.add('error');
+            }
+        } catch (err) {
+            errorBox.style.display = 'block';
+            errorBox.innerText = "❌ Server error occurred.";
+        }
+      })
+      .catch(error => {
+        errorBox.style.display = 'block';
+        errorBox.innerText = "❌ Network connection failed.";
+      });
+    });
+  </script>
+</body>
+</html>
